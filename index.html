@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movies List</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+    <input type="text" name="searchedMovie">
+    <button id="sub" onclick="searchMovies()">search</button>
+    <button id="backToList" class="hide" onclick="backToList()">Back</button>
+
+    <ul id="moviesList">
+
+    </ul>
+    <div id="selected" class="hide">
+        <div id="poster"></div>
+        <div id="movieTitle">
+            <!--<p>title</p>-->
+            <!--<p>tagline</p>-->
+        </div>
+        <div id="details">
+            <!--<p>genre</p>-->
+            <!--<p>release_date</p>-->
+        </div>
+        <div id="overview"></div>
+
+        <div id="recommendations">
+
+        </div>
+    </div>
+
+
+
+ <script src="./main.js"></script>
+</body>
+</html>
