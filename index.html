@@ -2,31 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>Movies List</title>
     <link rel="stylesheet" href="./styles.css">
 </head>
-
-    <input type="text" name="searchedMovie">
-    <button id="sub" onclick="searchMovies()">search</button>
-    <button id="backToList" class="hide" onclick="backToList()">Back</button>
-
-    <ul id="moviesList">
-
+<body>
+    <div class="header">
+        <div class="search">
+            <input type="text" name="searchedMovie" placeholder="Search your favorite movie">
+            <button id="sub" onclick="searchMovies()">Search</button>
+        </div>
+        <button id="backToList" class="hide" onclick="backToList()">Back</button>
+    </div>
+    <ul id="moviesList" class="mainList">
     </ul>
-    <div id="selected" class="hide">
+    <div id="selected" class="hide selectedMovie">
         <div id="poster"></div>
-        <div id="movieTitle">
-            <!--<p>title</p>-->
-            <!--<p>tagline</p>-->
-        </div>
-        <div id="details">
-            <!--<p>genre</p>-->
-            <!--<p>release_date</p>-->
-        </div>
+        <div id="movieTitle"></div>
+        <div id="details"></div>
         <div id="overview"></div>
-
         <div id="recommendations">
-
         </div>
     </div>
 

@@ -1,3 +1,104 @@
+html , body{
+    padding: 0;
+    margin: 0;
+}
+p , h1, h2, h3{
+    font-family: Arial;
+}
+*{
+    box-sizing: border-box;
+    outline: none;
+}
 .hide{
     display: none;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 50px;
+    background-color: #51DFDE;
+}
+
+.header button{
+    height: 35px;
+    background: inherit;
+    border: solid 2px #95B1B0;
+    line-height: 25px;
+    padding: 0 10px;
+    cursor: pointer;
+}
+.search{
+    width: 30%;
+    min-width: 260px;
+    display: flex;
+    justify-content: space-around;
+
+    align-items: center;
+
+}
+.search>input{
+    border: none;
+    height: 35px;
+    width: 180px;
+    padding-left: 5px;
+}
+
+.mainList{
+    height: calc(100vh - 50px);
+    list-style: none;
+    background: linear-gradient(to top, #51dfde, #6bd4d2, #7dc8c7, #8abdbb, #95b1b0);
+    margin: 0;
+    padding: 10px 10px 10px 30px;
+}
+
+.mainList>li{
+    height: auto;
+    min-height: 30px;
+    padding: 5px 10px;
+    font-size: 20px;
+    font-family: Arial;
+    cursor: pointer;
+    transition: .5s;
+    line-height: 30px;
+}
+.mainList>li:hover{
+    padding-left: 20px;
+    background-color: #51DFDE;
+    box-shadow: inset 0 0 10px 1px #95B1B0;
+}
+
+.selectedMovie{
+    height: calc(100% - 50px);
+    padding-top: 20px;
+    background: linear-gradient(to top, #51dfde, #6bd4d2, #7dc8c7, #8abdbb, #95b1b0);
+}
+
+#poster{
+    min-width: 300px;
+    text-align:center ;
+}
+#poster>img{
+    margin: 0 auto;
+}
+#movieTitle{
+    text-align: center;
+}
+#details , #overview{
+    padding: 0 10px;
+}
+
+.recommendationsList{
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    overflow-x: auto;
+    padding-left: 0;
+}
+.recommendationsList>li{
+    margin: 0 10px;
+    text-align: center;
+    cursor: pointer;
 }
