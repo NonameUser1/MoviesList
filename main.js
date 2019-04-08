@@ -23,23 +23,26 @@ const getTrending = async () =>{
 
 const getDetails = async (e) =>{
     const id = e.target.getAttribute('data-id');
-    const isMovie = e.target.getAttribute('data-isMovie');
-    // const req = isMovie ?
-    const req = await fetch(`${RequestHead}movie/${id}?api_key=${API_Key}`)
-        // :
-        // await fetch(`${RequestHead}tv/${id}?api_key=${API_Key}&language=en-US`);
+    const isMovie = e.target.getAttribute('data-ismovie');
+    const req = isMovie === 'true' ?
+        await fetch(`${RequestHead}movie/${id}?api_key=${API_Key}`)
+    :
+        await fetch(`${RequestHead}tv/${id}?api_key=${API_Key}&language=en-US`);
     const movieInfo = await req.json();
-
     const movieGenres = [];
     for(let i = 0; i <movieInfo.genres.length; i++){
         movieGenres.push(movieInfo.genres[i].name);
     }
-    movieTitle.innerHTML = `<h1>${movieInfo.title}</h1><h2>${movieInfo.tagline}</h2>`;
-    details.innerHTML    = `<p>Genre: ${movieGenres}</p><p>Release date: ${movieInfo.release_date}</p>`;
+    movieTitle.innerHTML = isMovie === 'true'?
+        movieTitle.innerHTML = `<h1>${movieInfo.title}</h1><h2>${movieInfo.tagline}</h2>`
+    :
+        movieTitle.innerHTML = `<h1>${movieInfo.name}</h1>`;
+
+    details.innerHTML    = `<p>Genre: ${movieGenres}</p><p>Release date: ${movieInfo.release_date||movieInfo.first_air_date}</p>`;
     overview.innerHTML   = `<p>${movieInfo.overview}</p>`;
 
     poster.appendChild(await getPoster(movieInfo));
-    recommendations.appendChild(await getSimilar(movieInfo));
+    recommendations.appendChild(await getSimilar(movieInfo, isMovie));
 
     selected.classList.remove('hide');
     list.classList.add('hide');
@@ -52,21 +55,29 @@ const getPoster = async (movieInfo) =>{
     return posterImg;
 };
 
-const getSimilar = async (movieInfo) =>{
-    const req = await fetch(`${RequestHead}movie/${movieInfo.id}/similar?api_key=${API_Key}`);
+const getSimilar = async (movieInfo ,isMovie ) =>{
+    const req = isMovie === 'true' ?
+        await fetch(`${RequestHead}movie/${movieInfo.id}/similar?api_key=${API_Key}`)
+    :
+        await fetch(`${RequestHead}tv/${movieInfo.id}/similar?api_key=${API_Key}`);
+
     const similar = await req.json();
+
     const recommendationsList = document.createElement('ul');
     recommendationsList.classList.add('recommendationsList');
     for(let i = 0; i < 3 ; i++){
         const li = document.createElement('li');
-
         li.classList.add('fromRecommendations');
         li.addEventListener('click', getDetailsKostul);
-        li.innerHTML = `<img src="https://image.tmdb.org/t/p/w200/${similar.results[i].poster_path}"/><h3>${similar.results[i].title}</h3>`;
+        li.innerHTML = `<img src="https://image.tmdb.org/t/p/w200/${similar.results[i].poster_path}"/><h3>${similar.results[i].title||similar.results[i].name}</h3>`;
         li.setAttribute('data-id', similar.results[i].id);
-        li.setAttribute('data-isMovie', similar.results[i].title ? true : false);
+        li.setAttribute('data-ismovie', similar.results[i].title ? true : false);
         li.firstChild.setAttribute('data-id', similar.results[i].id);
+        li.firstChild.setAttribute('data-ismovie', similar.results[i].title ? true : false);
+
         li.lastChild.setAttribute('data-id', similar.results[i].id);
+        li.firstChild.setAttribute('data-ismovie', similar.results[i].title ? true : false);
+
         recommendationsList.appendChild(li);
     }
     return recommendationsList;
@@ -74,23 +85,27 @@ const getSimilar = async (movieInfo) =>{
 const getDetailsKostul = async (e) =>{
     await clearSelected();
     const id = e.target.getAttribute('data-id');
-    const isMovie = e.target.getAttribute('data-isMovie');
-    // const req = isMovie ?
-    const req = await fetch(`${RequestHead}movie/${id}?api_key=${API_Key}`);
-        // :
-        // await fetch(`${RequestHead}tv/${id}?api_key=${API_Key}&language=en-US`);
+    const isMovie = e.target.getAttribute('data-ismovie');
+    const req = isMovie === 'true' ?
+        await fetch(`${RequestHead}movie/${id}?api_key=${API_Key}`)
+        :
+        await fetch(`${RequestHead}tv/${id}?api_key=${API_Key}&language=en-US`);
     const movieInfo = await req.json();
 
     const movieGenres = [];
     for(let i = 0; i <movieInfo.genres.length; i++){
         movieGenres.push(movieInfo.genres[i].name);
     }
-    movieTitle.innerHTML = `<h1>${movieInfo.title}</h1><h2>${movieInfo.tagline}</h2>`;
-    details.innerHTML    = `<p>Genre: ${movieGenres}</p><p>Release date: ${movieInfo.release_date}</p>`;
+    movieTitle.innerHTML = isMovie === 'true'?
+        movieTitle.innerHTML = `<h1>${movieInfo.title}</h1><h2>${movieInfo.tagline}</h2>`
+        :
+        movieTitle.innerHTML = `<h1>${movieInfo.name}</h1>`;
+
+    details.innerHTML    = `<p>Genre: ${movieGenres}</p><p>Release date: ${movieInfo.release_date||movieInfo.first_air_date}</p>`;
     overview.innerHTML   = `<p>${movieInfo.overview}</p>`;
 
     poster.appendChild(await getPoster(movieInfo));
-    recommendations.appendChild(await getSimilar(movieInfo));
+    recommendations.appendChild(await getSimilar(movieInfo, isMovie));
 
     selected.classList.remove('hide');
     list.classList.add('hide');
